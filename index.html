@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Calculator App</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #f6faff, #b8d6ff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+    
+    .calculator {
+      background-color: #eaeaea;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+      text-align: right;
+      margin-bottom: 20px;
+    }
+    
+    .result-bar {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    
+    .calculator-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    
+    .calculator-button {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: #d4d4d4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .calculator-button:hover {
+      background-color: #b8b8b8;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <div class="result-bar">0</div>
+    <div class="calculator-row">
+      <div class="calculator-button" onclick="appendNumber(7)">7</div>
+      <div class="calculator-button" onclick="appendNumber(8)">8</div>
+      <div class="calculator-button" onclick="appendNumber(9)">9</div>
+      <div class="calculator-button" onclick="appendOperator('+')">+</div>
+    </div>
+    <div class="calculator-row">
+      <div class="calculator-button" onclick="appendNumber(4)">4</div>
+      <div class="calculator-button" onclick="appendNumber(5)">5</div>
+      <div class="calculator-button" onclick="appendNumber(6)">6</div>
+      <div class="calculator-button" onclick="appendOperator('-')">-</div>
+    </div>
+    <div class="calculator-row">
+      <div class="calculator-button" onclick="appendNumber(1)">1</div>
+      <div class="calculator-button" onclick="appendNumber(2)">2</div>
+      <div class="calculator-button" onclick="appendNumber(3)">3</div>
+      <div class="calculator-button" onclick="appendOperator('*')">*</div>
+    </div>
+    <div class="calculator-row">
+      <div class="calculator-button" onclick="appendNumber(0)">0</div>
+      <div class="calculator-button" onclick="appendDecimal('.')">.</div>
+      <div class="calculator-button" onclick="appendOperator('/')">/</div>
+      <div class="calculator-button" onclick="calculateResult()">=</div>
+    </div>
+    <div class="calculator-row">
+      <div class="calculator-button" onclick="clearCalculator()">C</div>
+      <div class="calculator-button" onclick="deleteLastCharacter()">⌫</div>
+    </div>
+  </div>
+
+  <script>
+    let expression = '';
+    const resultBar = document.querySelector('.result-bar');
+
+    function appendNumber(number) {
+      expression += number;
+      resultBar.textContent = expression;
+    }
+
+    function appendOperator(operator) {
+      expression += operator;
+      resultBar.textContent = expression;
+    }
+
+    function appendDecimal(decimal) {
+      // Check if there is already a decimal point in the current number
+      const lastNumber = expression.split(/[\+\-\*\/]/).pop();
+      if (!lastNumber.includes(decimal)) {
+        expression += decimal;
+        resultBar.textContent = expression;
+      }
+    }
+
+    function clearCalculator() {
+      expression = '';
+      resultBar.textContent = '0';
+    }
+
+    function deleteLastCharacter() {
+      expression = expression.slice(0, -1);
+      resultBar.textContent = expression;
+    }
+
+    function calculateResult() {
+      try {
+        const result = eval(expression);
+        expression = result.toString();
+        resultBar.textContent = expression;
+      } catch (error) {
+        // Handle error if expression is invalid
+        expression = '';
+        resultBar.textContent = 'Error';
+      }
+    }
+  </script>
+</body>
+</html>
